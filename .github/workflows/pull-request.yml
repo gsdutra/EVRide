@@ -16,10 +16,5 @@ jobs:
           envkey_DATABASE_URL: "postgresql://postgres:postgres@postgres:5432/passwords"
           directory: evride-back
           file_name: .env.test
-      - name: Make default .env
-        uses: SpicyPizza/create-envfile@v1.3.1
-        with:
-          envkey_PORT: 5000
-          file_name: .env
       - name: Run tests
         run: docker-compose -f docker-compose-test.yml run node npm run test
