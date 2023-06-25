@@ -1,0 +1,123 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+
+/* html *{
+	font-family: 'Roboto', sans-serif;
+} */
+
+.button {
+	transition: .2s;
+	cursor: pointer;
+}
+.button:hover {
+	transition: .2s;
+	transform: scale(1.02);
+}
+
+.bt {
+	border-radius: 100px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 18px;
+	height: auto;
+	font-size: 18px;
+	color: #121212;
+	margin: 7px;
+	font-weight: 500;
+	font-size: 18px;
+}
+
+.hidebg {
+	opacity: 0;
+	scale: 0;
+	transition: opacity .07s ease-in-out, scale 0s linear 0.07s;
+}
+
+.hidebg.show {
+	scale: 1;
+	opacity: 0.5;
+	transition: opacity .07s ease-in-out;
+}
+
+.menu {
+	left: 0;
+	opacity: 1;
+	transition: left .3s ease-in-out;
+}
+
+.menuhidden {
+	left: -100%;
+	scale: 0;
+	transition: left .3s ease-in-out, scale 0s linear 0.3s;
+}
+
+.usermenu {
+	overflow-x: hidden;
+	right: 0;
+	opacity: 1;
+	transition: right .3s ease-in-out;
+}
+
+.usermenuhidden {
+	overflow-x: hidden;
+	right: -100%;
+	scale: 0;
+	transition: right .3s ease-in-out, scale 0s linear 0.3s;
+}
+
+input, select {
+	display: block;
+	height: 50px;
+	width: 90%;
+	border: none;
+	border-radius: 2px;
+	padding: 10px;
+	box-sizing: border-box;
+}
+
+input:hover,
+input:focus,
+input:active:focus {
+color: #0DDDFF;
+outline: none;
+border-bottom: 1px solid #0DDDFF;
+}
+
+input:hover::placeholder,
+input:focus::placeholder,
+input:active:focus::placeholder {
+position: relative;
+-webkit-transform: translateY(-2px);
+transform: translateY(-2px);
+}
+
+input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+input[type="number"] {
+	-moz-appearance: textfield;
+	appearance: textfield;
+}
+
+.input-bar {
+	position: relative;
+	width: 100%;
+	opacity: 0.7;
+}
+
+.input-value-left {
+	position: absolute;
+	right: 30px;
+	bottom: 24px;
+}
+.input-value-right {
+	position: absolute;
+	left: 30px;
+	bottom: 24px;
+}

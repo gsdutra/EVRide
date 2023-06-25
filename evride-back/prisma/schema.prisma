@@ -1,0 +1,124 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id               Int       @id @default(autoincrement())
+  email            String    @unique
+  name             String
+  password         String
+  imageUrl         String?
+  type             Type
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  listings         Listing[]
+  messagesSent     Message[] @relation("Sender")
+  messagesReceived Message[] @relation("Receiver")
+  chatsAsSeller    Chat[] @relation("Seller")
+  chatsAsBuyer     Chat[] @relation("Buyer")
+}
+
+model Listing {
+  id           Int     @id @default(autoincrement())
+  seller       User    @relation(fields: [sellerId], references: [id])
+  sellerId     Int
+  brand        Brand   @relation(fields: [brandId], references: [id])
+  brandId      Int
+  model        Model   @relation(fields: [modelId], references: [id])
+  modelId      Int
+  year         Int
+  price        Int
+  mileage      Int
+  plateEnding  Int
+  acceptsTrade Boolean
+  description  String
+
+  state String
+  city  String
+
+  fuel     Fuel
+  category Category
+
+  images    ListingImage[]
+  chats     Chat[]
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+}
+
+model ListingImage {
+  id        Int     @id @default(autoincrement())
+  listing   Listing @relation(fields: [listingId], references: [id])
+  listingId Int
+  url       String
+}
+
+model Message {
+  id         Int      @id @default(autoincrement())
+  sender     User     @relation("Sender", fields: [senderId], references: [id])
+  senderId   Int
+  receiver   User     @relation("Receiver", fields: [receiverId], references: [id])
+  receiverId Int
+  message    String
+  chatId     Int
+  chat       Chat     @relation(fields: [chatId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Chat {
+  id        Int      @id @default(autoincrement())
+  listingId Int
+  listing   Listing @relation(fields: [listingId], references: [id])
+  messages  Message[]
+
+  sellerId  Int
+  seller    User     @relation("Seller", fields: [sellerId], references: [id])
+  buyerId   Int
+  buyer     User     @relation("Buyer", fields: [buyerId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Brand {
+  id       Int       @id @default(autoincrement())
+  name     String    @unique
+  listings Listing[]
+  models   Model[]
+}
+
+model Model {
+  id       Int       @id @default(autoincrement())
+  name     String
+  brand    Brand     @relation(fields: [brandId], references: [id])
+  brandId  Int
+  listings Listing[]
+
+  @@unique([brandId, name])
+}
+
+enum Category {
+  CAR
+  TRUCK
+  VAN
+  MOTORCYCLE
+}
+
+enum Type {
+  PERSONAL
+  STORE
+}
+
+enum Fuel {
+  ELECTRIC
+  HYBRID
+}

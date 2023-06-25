@@ -1,0 +1,42 @@
+services:
+  postgres:
+    image: postgres
+    container_name: postgres
+    ports:
+      - 5433:5432
+    env_file:
+      - evride-back/.env
+    volumes:
+      - postgres-volume:/var/lib/postgresql/data
+
+  node:
+    container_name: node
+    build: ./evride-back
+    ports:
+      - 5000:5000
+    depends_on:
+      - postgres
+    env_file:
+      - evride-back/.env
+
+  nextjs:
+    container_name: nextjs
+    build:
+      context: ./evride-front
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+
+  nginx:
+    container_name: nginx
+    build: ./nginx
+    ports:
+      - 8080:80
+    depends_on:
+      - node
+      - nextjs
+
+volumes:
+  postgres-volume:
+  nextjs-volume:
+  apache:
