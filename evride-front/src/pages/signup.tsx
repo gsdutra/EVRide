@@ -93,7 +93,7 @@ export default function Signup() {
 				className="mb-3"
 				placeholder='URL da imagem de perfil'
 				type="url"
-				id="passwordRepeat"
+				id="pfp"
 				value={pictureUrl}
 				onChange={e => setPictureUrl(e.target.value)}
 			/>
