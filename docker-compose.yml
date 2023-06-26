@@ -1,8 +1,3 @@
-openssl:
-  build: ./openssl
-  volumes:
-    - ssl-certs:/certs
-
 services:
   postgres:
     image: postgres
@@ -31,6 +26,11 @@ services:
       dockerfile: Dockerfile
     ports:
       - 3000:3000
+
+  openssl:
+    build: ./openssl
+    volumes:
+      - ssl-certs:/certs
 
   nginx:
     container_name: nginx
