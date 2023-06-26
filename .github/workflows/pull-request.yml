@@ -12,8 +12,8 @@ jobs:
           envkey_PORT: 5000
           envkey_POSTGRES_USER: "postgres"
           envkey_POSTGRES_PASSWORD: "postgres"
-          envkey_POSTGRES_DB: "passwords"
-          envkey_DATABASE_URL: "postgresql://postgres:postgres@postgres:5432/passwords"
+          envkey_POSTGRES_DB: "evride"
+          envkey_DATABASE_URL: "postgresql://postgres:postgres@postgres:5432/evride"
           directory: evride-back
           file_name: .env.test
       - name: Run tests
