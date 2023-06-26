@@ -34,7 +34,7 @@ export default function Chats() {
 				{chats.map((chat, i) => {
 					return (<>
 						<Link href={'/chats/'+chat.id} className="flex max-w-[25rem] w-full justify-start">
-							<img src={chat.userImage} className="h-20 w-auto img-cover rounded-full mr-7" />
+							<img src={chat.userImage} className="h-20 w-20 object-cover rounded-full mr-7" />
 							<div>
 								<a className="text-sm">{chat.userName}</a> <br />
 								{chat.name}

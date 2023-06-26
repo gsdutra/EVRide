@@ -1,3 +1,8 @@
+openssl:
+  build: ./openssl
+  volumes:
+    - ssl-certs:/certs
+
 services:
   postgres:
     image: postgres
@@ -32,11 +37,15 @@ services:
     build: ./nginx
     ports:
       - 80:80
+      - 443:443
     depends_on:
       - node
       - nextjs
+      - openssl
+    volumes:
+      - ssl-certs:/certs
 
 volumes:
   postgres-volume:
   nextjs-volume:
-  apache:
+  ssl-certs:
