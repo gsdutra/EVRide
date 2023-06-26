@@ -75,7 +75,7 @@ export default function Chat() {
 				<div className="bg-seclight dark:bg-secdark max-w-[600px] h-24 w-full flex items-center pl-4 pr-4 rounded-3xl mb-2 fixed top-24 z-20">
 					{as === 'buyer' ?
 						<>
-							<img src={chatData.seller.imageUrl} className="h-20 w-auto img-cover rounded-full mr-7" />
+							<img src={chatData.seller.imageUrl} className="h-20 w-20 object-cover rounded-full mr-7" />
 							<div>
 								<p className="text-sm">{chatData.seller.name}</p>
 								<p>{chatData.listing.brand.name + ' ' + chatData.listing.model.name}</p>
@@ -83,7 +83,7 @@ export default function Chat() {
 						</>
 						:
 						<>
-							<img src={chatData.buyer.imageUrl} className="h-20 w-auto img-cover rounded-full mr-7" />
+							<img src={chatData.buyer.imageUrl} className="h-20 w-20 object-cover rounded-full mr-7" />
 							<div>
 								<p className="text-sm">{chatData.buyer.name}</p>
 								<p>{chatData.listing.brand.name + ' ' + chatData.listing.model.name}</p>

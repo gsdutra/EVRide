@@ -33,7 +33,7 @@ export default function Menu(props: any){
 				<img src={
 					userData.imageUrl || '/no_image.jpg'
 					}
-					className="rounded-full"></img>
+					className="rounded-full object-cover min-w-[220px] h-[220px] "></img>
 				<p className="mt-5">Bem vindo(a), <br/></p>
 				<p className="mb-16">{userData.name}</p>
 
