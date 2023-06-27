@@ -4,6 +4,8 @@ import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/router';
 import Link from 'next/link'
+import { Uploader } from 'uploader';
+import { UploadButton } from "react-uploader";
 
 export default function Signup() {
 	const router = useRouter();
@@ -13,8 +15,9 @@ export default function Signup() {
 	const [type, setType] = useState<string>('personal');
 	const [password, setPassword] = useState<string>('');
 	const [passwordRepeat, setPasswordRepeat] = useState<string>('');
-	const [picture, setPicture] = useState<File>();
 	const [pictureUrl, setPictureUrl] = useState<string>('');
+
+	const uploader = Uploader({ apiKey: "public_kW15bUC9F7NL9oiw4ER6eGWgbC2L" });
 
 	const handleSubmit = (e: FormEvent) => {
 		e.preventDefault();
@@ -26,26 +29,23 @@ export default function Signup() {
 			toast('A senha deve ter ao menos 5 caracteres', { type: 'error' })
 			return;
 		}
-		const prom = useApi.post('/auth/signup', { email, name, type, password, pictureUrl })
+		if (pictureUrl === '') {
+			const prom = useApi.post('/auth/signup', { email, name, type, password })
 			.then(r => {
 				toast('Registro efetuado com sucesso!', { type: 'success' })
 				setTimeout(() => router.push('/signin'), 1000)
 			})
 			.catch(e => toast('Algo deu errado! Por favor, revise seus dados.', { type: 'error' }))
-
-	};
-
-	const handlePictureChange = (e: ChangeEvent<HTMLInputElement>) => {
-		if (e.target.files) {
-			setPicture(e.target.files[0]);
+		} else {
+			const prom = useApi.post('/auth/signup', { email, name, type, password, pictureUrl })
+				.then(r => {
+					toast('Registro efetuado com sucesso!', { type: 'success' })
+					setTimeout(() => router.push('/signin'), 1000)
+				})
+				.catch(e => toast('Algo deu errado! Por favor, revise seus dados.', { type: 'error' }))
 		}
+
 	};
-
-	const hiddenFileInput: any = useRef(null);
-
-	const handleClick = () => {
-		hiddenFileInput.current.click();
-	  };
 
 	return (<div className="mt-[50px] flex flex-col justify-center items-center">
 		<a className="text-xl">Insira seus dados para criar sua conta:</a>
@@ -89,14 +89,29 @@ export default function Signup() {
 				onChange={e => setPasswordRepeat(e.target.value)}
 			/>
 
-			<input
-				className="mb-3"
-				placeholder='URL da imagem de perfil'
-				type="url"
-				id="pfp"
-				value={pictureUrl}
-				onChange={e => setPictureUrl(e.target.value)}
-			/>
+			<div className="bg-seclight dark:bg-[#626262] w-[90%] mb-1 button p-3 pb-1 rounded-sm">
+				<UploadButton
+					uploader={uploader}
+					options={{ multi: true }}
+					onComplete={files => {
+						files[0]?
+						setPictureUrl(files[0].fileUrl.replace(/\s/g, ''))
+						: () => {}
+						}}>
+					{({onClick}) =>
+					<button onClick={onClick}>
+						<div className="flex">
+							<img className="w-5 mr-3" src='upload_light.svg'></img>
+							<a>Escolha sua foto de perfil</a>
+						</div>
+					</button>
+					}
+				</UploadButton>
+			</div>
+
+			{pictureUrl !== '' ?
+			<div className="mb-2 text-green-500">✓ Imagem selecionada</div>
+			:''}
 
 			<select value={type} onChange={e => setType(e.target.value)}
 				className="mb-3">
@@ -104,28 +119,11 @@ export default function Signup() {
 				<option value="store">Loja</option>
 			</select>
 
-			{/* <input
-				type="file"
-				className="hidden"
-				onChange={handlePictureChange}
-				ref={hiddenFileInput}
-			/>
-			<button className="button w-[320px] h-[50px] mb-3 border-solid border-2 border-blue"
-			onClick={handleClick}>Selecionar foto de perfil</button>
-
-			{picture? 
-			<p className="mb-3 text-green-500">
-				✓ Foto selecionada com sucesso
-			</p>
-			:''} */}
-
 			<button className="button bt bg-blue mt-2 w-[341px]" type="submit">REGISTRAR</button>
 		</form>
 
 		<Link href='/signin'>
 			<button className="button bt bg-gray w-[341px]" >Já tem conta? Faça login</button>
 		</Link>
-
-
 	</div>)
 }

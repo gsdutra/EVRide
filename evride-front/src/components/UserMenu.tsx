@@ -34,14 +34,14 @@ export default function Menu(props: any){
 					userData.imageUrl || '/no_image.jpg'
 					}
 					className="rounded-full object-cover min-w-[220px] h-[220px] "></img>
-				<p className="mt-5">Bem vindo(a), <br/></p>
-				<p className="mb-16">{userData.name}</p>
+				<p className="mt-5 text-center">Bem vindo(a), <br/></p>
+				<p className="mb-16 text-center">{userData.name}</p>
 
-				<button onClick={()=>0} className='button bt bg-blue w-[240px]'>
+				<button onClick={()=>0} className='button bt bg-blue w-[200px]'>
 					EDITAR PERFIL
 				</button>
 
-				<button onClick={logout} className='button bt bg-gray w-[240px]'>
+				<button onClick={logout} className='button bt bg-gray w-[200px]'>
 					ENCERRAR SESSÃO
 				</button>
 				<ToastContainer/>
@@ -49,7 +49,7 @@ export default function Menu(props: any){
 			:
 			<div className="flex flex-col justify-center items-center">
 			<Link href='/signup'>
-				<button onClick={()=>props.hide(false)} className='button bt bg-blue w-[240px]'>
+				<button onClick={()=>props.hide(false)} className='button bt bg-blue w-[200px]'>
 					CRIAR CONTA
 				</button>
 			</Link>
@@ -57,7 +57,7 @@ export default function Menu(props: any){
 			<div className="mt-5"/>
 
 			<Link href='/signin'>
-				<button onClick={()=>props.hide(false)} className='button bt bg-gray w-[240px]'>
+				<button onClick={()=>props.hide(false)} className='button bt bg-gray min-w-[200px]'>
 					FAZER LOGIN
 				</button>
 			</Link>

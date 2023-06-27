@@ -21,7 +21,7 @@ export default function Home() {
         height={100}
         alt="logo"
       />
-      <a className="mt-5 text-xl">O seu marketplace de veículos sustentáveis</a>
+      <a className="mt-5 text-xl text-center">O seu marketplace de veículos sustentáveis</a>
 
       <div className="mt-[30px]" />
 
