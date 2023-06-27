@@ -5,6 +5,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import Link from 'next/link';
 import UserNotLogged from '@/components/UserNotLogged';
 import axios from 'axios';
+import { Uploader } from 'uploader';
+import { UploadButton } from "react-uploader";
 
 export default function Anunciar() {
 	const [userLogged, setUserLogged] = useState(false);
@@ -31,6 +33,9 @@ export default function Anunciar() {
 	const [city, setCity] = useState<string>('');
 
 	const [image, setImage] = useState<string>('');
+	const [imagesArray, setImagesArray] = useState<string[]>([]);
+
+	const uploader = Uploader({ apiKey: "public_kW15bUC9F7NL9oiw4ER6eGWgbC2L" });
 
 	useEffect(() => {
 		const token = localStorage.getItem("token") || "";
@@ -108,7 +113,7 @@ export default function Anunciar() {
 			acceptsTrade: Boolean(acceptsTrade),
 			fuel: fuelType,
 			description: description,
-			imagesArray: [image],
+			imagesArray: imagesArray,
 			state: state,
 			city: city
 		}
@@ -261,15 +266,29 @@ export default function Anunciar() {
 			<textarea required value={description} onChange={e => setDescription(e.target.value)}
 			className="mb-3 w-[90%] p-2" placeholder="Descrição do veículo" />
 
-			<input
-				required
-				className="mb-3"
-				placeholder='Link da imagem principal'
-				type="url"
-				id="photo"
-				value={image}
-				onChange={e => setImage(e.target.value)}
-			/>
+			<div className="bg-seclight dark:bg-[#626262] w-[90%] mb-1 button p-3 pb-1 rounded-sm">
+				<UploadButton
+					uploader={uploader}
+					options={{ multi: true }}
+					onComplete={files => {
+						files[0]?
+						setImagesArray(files.map(file => file.fileUrl.replace(/\s/g, '')))
+						: () => {}
+						}}>
+					{({onClick}) =>
+					<button onClick={onClick}>
+						<div className="flex">
+							<img className="w-7 mr-3" src='upload_light.svg'></img>
+							<a>Selecionar imagens do veículo</a>
+						</div>
+					</button>
+					}
+				</UploadButton>
+			</div>
+
+			{imagesArray.length !== 0 ?
+			<div className="mb-2 text-green-500">✓ Imagem selecionada</div>
+			:''}
 
 			<a>Onde o veículo está localizado?</a>
 			<select value={state} onChange={e => setState(e.target.value)}

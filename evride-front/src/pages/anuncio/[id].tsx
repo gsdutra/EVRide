@@ -68,7 +68,7 @@ export default function Anuncio(props: any) {
 									<p className="text-xl">{price}</p>
 								</div>
 							</div>
-							<button className="button bt bg-blue w-[45vw]" onClick={startChat}>
+							<button className="button bt bg-blue w-[300px]" onClick={startChat}>
 								<div className="flex pl-3 pr-3 box-border items-center">
 									<a className="mr-3">INICIAR CHAT COM O ANUNCIANTE</a>
 									<img src="/chat.svg" className="h-[2.5rem]"></img>
