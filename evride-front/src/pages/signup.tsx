@@ -17,7 +17,7 @@ export default function Signup() {
 	const [passwordRepeat, setPasswordRepeat] = useState<string>('');
 	const [pictureUrl, setPictureUrl] = useState<string>('');
 
-	const uploader = Uploader({ apiKey: "public_kW15bUC9F7NL9oiw4ER6eGWgbC2L" });
+	const uploader = Uploader({ apiKey: "public_12a1yR7BZBBJM7Eap8EubW5QHWGR" });
 
 	const handleSubmit = (e: FormEvent) => {
 		e.preventDefault();

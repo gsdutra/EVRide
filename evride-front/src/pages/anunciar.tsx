@@ -35,7 +35,7 @@ export default function Anunciar() {
 	const [image, setImage] = useState<string>('');
 	const [imagesArray, setImagesArray] = useState<string[]>([]);
 
-	const uploader = Uploader({ apiKey: "public_kW15bUC9F7NL9oiw4ER6eGWgbC2L" });
+	const uploader = Uploader({ apiKey: "public_12a1yR7BZBBJM7Eap8EubW5QHWGR" });
 
 	useEffect(() => {
 		const token = localStorage.getItem("token") || "";
