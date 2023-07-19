@@ -55,7 +55,7 @@ model Listing {
 
 model ListingImage {
   id        Int     @id @default(autoincrement())
-  listing   Listing @relation(fields: [listingId], references: [id])
+  listing   Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
   listingId Int
   url       String
 }
@@ -68,7 +68,7 @@ model Message {
   receiverId Int
   message    String
   chatId     Int
-  chat       Chat     @relation(fields: [chatId], references: [id])
+  chat       Chat     @relation(fields: [chatId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -77,7 +77,7 @@ model Message {
 model Chat {
   id        Int      @id @default(autoincrement())
   listingId Int
-  listing   Listing @relation(fields: [listingId], references: [id])
+  listing   Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
   messages  Message[]
 
   sellerId  Int

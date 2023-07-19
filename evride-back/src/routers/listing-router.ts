@@ -15,5 +15,6 @@ listingRouter
 	.post('/models', validateToken, listingController.addModel)
 	.post('/', validateToken, validateListing, listingController.createListing)
 	.put('/', validateToken, validateListing, listingController.updateListing)
+	.delete('/:id', validateToken, listingController.deleteListing)
 
 export { listingRouter }

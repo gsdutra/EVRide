@@ -14,7 +14,7 @@ export default function Menu(props: any){
 			<Link href='/anuncios'>
 				<button className="text-left" onClick={()=>props.hide(false)}>Procurar veículos</button>
 			</Link> <br/><br/>
-			<Link href='/meusanuncios'>
+			<Link href='/perfil/anuncios'>
 			<button className="text-left" onClick={()=>props.hide(false)}>Meus anúncios</button>
 			</Link> <br/><br/>
 			Esquema de cores: <br/>
