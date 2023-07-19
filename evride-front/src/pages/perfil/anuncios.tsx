@@ -44,13 +44,12 @@ export default function Anuncios() {
                     </div>
                     <div className="flex w-[100vw] flex-row justify-center flex-wrap">
                         {listings.map((listing: any, i: number) => (
-                            <div className="absolute">
+                            <div className="absolute" key={i}>
                                 <button onClick={() => deleteListing(listing.id)}
                                     className="relative bg-red-500 w-20 h-20 rounded-full top-20 left-80 button p-4">
                                     <img src="/trash.svg"></img>
                                 </button>
                                 <ListingContainer
-                                    key={i}
                                     id={listing.id}
                                     images={listing.images}
                                     brand={listing.brand.name}
