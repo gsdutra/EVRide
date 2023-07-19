@@ -13,6 +13,6 @@ export default function Perfil() {
 	console.log('userData: '+userData)
 	return (<div className="flex flex-col items-center pt-[2rem] text-3xl">
 		Dados do usuário: <br />
-		<p className="break-all">{userData.email}</p>
+		<p className="break-all">{userData}</p>
 	</div>)
 }
