@@ -7,7 +7,7 @@ export const listingSchema = joi.object({
 	year: joi.number().integer().strict(true).min(1900).max(2099).required(),
 	price: joi.number().integer().strict(true).min(1).required(),
 	mileage: joi.number().integer().strict(true).min(0).required(),
-	plateEnding: joi.number().integer().strict(true).min(1).max(9).required(),
+	plateEnding: joi.number().integer().strict(true).min(0).max(9).required(),
 	acceptsTrade: joi.boolean().required(),
 	description: joi.string().min(1).max(1000).required(),
 	state: joi.string().min(1).max(255).required(),
