@@ -4,9 +4,12 @@ import { useRouter } from 'next/router'
 import Link from 'next/link';
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import Loading from '@/components/Loading';
 
 export default function Anuncio(props: any) {
 	const router = useRouter()
+    const [loading, setLoading] = useState(false);
+
 
 	const [listing, setListing] = useState<any>();
 	const [notFound, setNotFound] = useState<boolean>(false);
@@ -17,13 +20,14 @@ export default function Anuncio(props: any) {
 	const id = router.query.id;
 
 	useEffect(() => {
-
+		setLoading(true)
 		const getListings = useApi.get('/listing/get/' + router.query.id)
 			.then((e) => {
 				setListing(e.data)
 				setNotFound(false)
 			})
 			.catch((e) => setNotFound(true))
+            .finally(()=>setLoading(false))
 
 	}, [id])
 
@@ -34,21 +38,25 @@ export default function Anuncio(props: any) {
 	}, [listing])
 
 	const startChat = () => {
+		setLoading(true)
 		const token = localStorage.getItem("token") || "";
 		const checkUser = useApi.get('/user', token)
 			.then((e) => {
 				const listingId = listing.id;
 				const sellerId = listing.sellerId;
-				useApi.post('/chat', {listingId, sellerId}, token)
+				useApi.post('/chat', { listingId, sellerId }, token)
 					.then((e) => {
 						router.push('/chats/' + e.data.chatId)
 					})
 					.catch((e) => toast.error("Erro ao iniciar conversa."))
+					.finally(()=>setLoading(false))
 			})
 			.catch((e) => toast.error("Você precisa estar logado para iniciar uma conversa."))
+            .finally(()=>setLoading(false))
 	}
 
-	return (
+	return (<>
+		<Loading loading={loading} />
 		<div className="flex flex-col justify-center items-center text-xl">
 			<ToastContainer />
 			{
@@ -95,5 +103,5 @@ export default function Anuncio(props: any) {
 						</div>
 			}
 		</div>
-	)
+	</>)
 }

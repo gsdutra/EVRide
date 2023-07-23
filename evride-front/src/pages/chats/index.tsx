@@ -3,8 +3,10 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react';
 import UserNotLogged from '@/components/UserNotLogged';
 import Link from 'next/link';
+import Loading from '@/components/Loading';
 
 export default function Chats() {
+    const [loading, setLoading] = useState(false);
 
 	const [userLogged, setUserLogged] = useState(true);
 	const [chats, setChats] = useState<any[]>([]);
@@ -12,22 +14,27 @@ export default function Chats() {
 	const router = useRouter()
 
 	useEffect(() => {
+		setLoading(true)
 		const token = localStorage.getItem("token") || "";
 		const checkUser = useApi.get('/user', token)
 			.then((e) => setUserLogged(true))
 			.catch((e) => setUserLogged(false))
+            .finally(()=>setLoading(false))
 	}, [])
 
 	useEffect(() => {
 		if (!userLogged) return;
+		setLoading(true)
 		const token = localStorage.getItem("token") || "";
 		const getChats = useApi.get('/chat', token)
 			.then((e) => setChats(e.data))
 			.catch((e) => console.log(e))
+            .finally(()=>setLoading(false))
 	}, [userLogged])
 
 
 	return (<>
+		<Loading loading={loading} />
 		{userLogged ?
 			<div className="w-full mt-[50px] flex flex-col justify-center items-center text-xl">
 				<h1 className='w-max text-center font-bold mb-10'>Seus chats</h1>

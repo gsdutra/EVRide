@@ -4,9 +4,12 @@ import { useEffect, useState, useRef } from 'react';
 import UserNotLogged from '@/components/UserNotLogged';
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import Loading from '@/components/Loading';
 
 export default function Chat() {
 	const router = useRouter()
+    const [loading, setLoading] = useState(false);
+
 	const bottomRef = useRef<HTMLDivElement>(null);
 
 	const [userLogged, setUserLogged] = useState(true);
@@ -26,9 +29,10 @@ export default function Chat() {
 
 	setInterval(() => {
 		setUpdate(!update)
-	}, 2000)
+	}, 5000)
 
 	useEffect(() => {
+		//setLoading(true)
 		const token = localStorage.getItem("token") || "";
 		const checkUser = useApi.get('/user', token)
 			.then((e) => {
@@ -36,10 +40,12 @@ export default function Chat() {
 				setUserId(e.data.id)
 			})
 			.catch((e) => setUserLogged(false))
+            .finally(()=>setLoading(false))
 	}, []);
 
 	useEffect(() => {
 		if (!userLogged) return;
+		//setLoading(true)
 		const token = localStorage.getItem("token") || "";
 		const getMessages = useApi.get('/chat/' + id, token)
 			.then((e) => {
@@ -47,6 +53,7 @@ export default function Chat() {
 				setAs(e.data.as)
 			})
 			.catch((e) => console.log(e))
+            .finally(()=>setLoading(false))
 	}, [userLogged, update, id]);
 
 	useEffect(() => {
@@ -60,15 +67,18 @@ export default function Chat() {
 	const handleSendMessage = () => {
 		const token = localStorage.getItem("token") || "";
 		if (inputMessage === '' || !inputMessage) return;
+		//setLoading(true)
 		const sendMessage = useApi.post('/chat/message', { message: inputMessage, chatId: id }, token)
 			.then((e) => {
 				setInputMessage('')
 				setUpdate(!update)
 			})
 			.catch((e) => toast.error('Erro ao enviar mensagem, verifique sua conexão.'))
+            .finally(()=>setLoading(false))
 	}
 
 	return (<>
+		<Loading loading={loading} />
 		{userLogged ?
 			<div className="mt-[50px] flex flex-col justify-center items-center text-xl">
 				<ToastContainer />

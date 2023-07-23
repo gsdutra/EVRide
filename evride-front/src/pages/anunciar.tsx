@@ -7,8 +7,11 @@ import UserNotLogged from '@/components/UserNotLogged';
 import axios from 'axios';
 import { Uploader } from 'uploader';
 import { UploadButton } from "react-uploader";
+import Loading from '@/components/Loading';
 
 export default function Anunciar() {
+	const [loading, setLoading] = useState(false)
+
 	const [userLogged, setUserLogged] = useState(false);
 
 	const [vehicleModel, setVehicleModel] = useState<string>('');
@@ -38,15 +41,20 @@ export default function Anunciar() {
 	const uploader = Uploader({ apiKey: "public_12a1yR7BZBBJM7Eap8EubW5QHWGR" });
 
 	useEffect(() => {
+		setLoading(true)
 		const token = localStorage.getItem("token") || "";
 		const checkUser = useApi.get('/user', token)
 		.then((e) => setUserLogged(true))
 		.catch((e) => setUserLogged(false))
+		.finally(()=>setLoading(false))
 
+		setLoading(true)
 		const getBrands = useApi.get('/listing/brands')
 		.then((e) => setBrandList(e.data))
 		.catch((e) => console.log(e))
+		.finally(()=>setLoading(false))
 
+		setLoading(true)
 		let statesArray: string[] = [];
 		const getStates = axios.get('https://servicodados.ibge.gov.br/api/v1/localidades/estados')
 		.then((e) => {
@@ -55,20 +63,24 @@ export default function Anunciar() {
 			setStateList(statesArray);
 		})
 		.catch((e) => console.log(e))
+		.finally(()=>setLoading(false))
 	}, [])
 
 	useEffect(() => {
 		if (vehicleBrand) {
 			const brandId = brandList.find((brand) => brand.name === vehicleBrand)?.id;
 			if (!brandId) return;
+			setLoading(true)
 			const prom = useApi.get(`/listing/models/${brandId}`)
 				.then((e) => setModelList(e.data))
 				.catch((e) => console.log(e))
+				.finally(()=>setLoading(false))
 		}
 	}, [vehicleBrand])
 
 	useEffect(() => {
 		let cityArray: string[] = [];
+		setLoading(true)
 		const getCities = axios.get(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${state}/municipios`)
 			.then((e) => {
 				e.data.map((city: any) => cityArray.push(city.nome))
@@ -76,6 +88,7 @@ export default function Anunciar() {
 				setCityList(cityArray);
 			})
 			.catch((e) => console.log(e))
+			.finally(()=>setLoading(false))
 	}, [state])
 
 	const handleSubmit = async (e: any) => {
@@ -118,8 +131,7 @@ export default function Anunciar() {
 			city: city
 		}
 
-		console.log(data)
-
+		setLoading(true)
 		const createListing = await useApi.post('/listing', data, token)
 			.then((e) => {
 				toast.success('Anúncio criado com sucesso!');
@@ -131,7 +143,7 @@ export default function Anunciar() {
 				toast.error('Erro ao criar anúncio!')
 				console.log(e)
 			})
-
+			.finally(()=>setLoading(false))
 	}
 
 	const handleMileageChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -139,6 +151,7 @@ export default function Anunciar() {
 
 	return (<>
 		<ToastContainer/>
+		<Loading loading={loading} />
 		{userLogged?
 		<div className="mt-[50px] flex flex-col justify-center items-center text-xl">
 			<p>Anunciar veículo</p>
