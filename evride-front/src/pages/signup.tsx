@@ -20,7 +20,7 @@ export default function Signup() {
 
 	const [loading, setLoading] = useState(false);
 
-	const uploader = Uploader({ apiKey: "public_12a1yR7BZBBJM7Eap8EubW5QHWGR" });
+	const uploader = Uploader({ apiKey: "public_FW25bYpAiKP7d5aXYnqUJC1WyTde" });
 
 	const handleSubmit = (e: FormEvent) => {
 		e.preventDefault();
