@@ -1,0 +1,134 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Table User {
+  id Int [pk, increment]
+  email String [unique, not null]
+  name String [not null]
+  password String [not null]
+  imageUrl String
+  type Type [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  listings Listing [not null]
+  messagesSent Message [not null]
+  messagesReceived Message [not null]
+  chatsAsSeller Chat [not null]
+  chatsAsBuyer Chat [not null]
+}
+
+Table Listing {
+  id Int [pk, increment]
+  seller User [not null]
+  sellerId Int [not null]
+  brand Brand [not null]
+  brandId Int [not null]
+  model Model [not null]
+  modelId Int [not null]
+  year Int [not null]
+  price Int [not null]
+  mileage Int [not null]
+  plateEnding Int [not null]
+  acceptsTrade Boolean [not null]
+  description String [not null]
+  state String [not null]
+  city String [not null]
+  fuel Fuel [not null]
+  category Category [not null]
+  images ListingImage [not null]
+  chats Chat [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+}
+
+Table ListingImage {
+  id Int [pk, increment]
+  listing Listing [not null]
+  listingId Int [not null]
+  url String [not null]
+}
+
+Table Message {
+  id Int [pk, increment]
+  sender User [not null]
+  senderId Int [not null]
+  receiver User [not null]
+  receiverId Int [not null]
+  message String [not null]
+  chatId Int [not null]
+  chat Chat [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+}
+
+Table Chat {
+  id Int [pk, increment]
+  listingId Int [not null]
+  listing Listing [not null]
+  messages Message [not null]
+  sellerId Int [not null]
+  seller User [not null]
+  buyerId Int [not null]
+  buyer User [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+}
+
+Table Brand {
+  id Int [pk, increment]
+  name String [unique, not null]
+  listings Listing [not null]
+  models Model [not null]
+}
+
+Table Model {
+  id Int [pk, increment]
+  name String [not null]
+  brand Brand [not null]
+  brandId Int [not null]
+  listings Listing [not null]
+
+  indexes {
+    (brandId, name) [unique]
+  }
+}
+
+Enum Category {
+  CAR
+  TRUCK
+  VAN
+  MOTORCYCLE
+}
+
+Enum Type {
+  PERSONAL
+  STORE
+}
+
+Enum Fuel {
+  ELECTRIC
+  HYBRID
+}
+
+Ref: Listing.sellerId > User.id
+
+Ref: Listing.brandId > Brand.id
+
+Ref: Listing.modelId > Model.id
+
+Ref: ListingImage.listingId > Listing.id [delete: Cascade]
+
+Ref: Message.senderId > User.id
+
+Ref: Message.receiverId > User.id
+
+Ref: Message.chatId > Chat.id [delete: Cascade]
+
+Ref: Chat.listingId > Listing.id [delete: Cascade]
+
+Ref: Chat.sellerId > User.id
+
+Ref: Chat.buyerId > User.id
+
+Ref: Model.brandId > Brand.id
