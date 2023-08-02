@@ -23,3 +23,6 @@ O EVRide é um marketplace de veículos elétricos que possibilita a negociaçã
 - Express
 - Prisma ORM
 - JWT token
+
+### Database
+- PostgreSQL
