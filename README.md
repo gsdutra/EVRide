@@ -7,7 +7,9 @@
 O EVRide é um marketplace de veículos elétricos que possibilita a negociação dentro da própria plataforma através de um chat integrado entre comprador e vendedor.
 
 ### Projeto em funcionamento
-<img src="./assets/example.gif" width="400"/>
+<p align="center">
+  <img src="./assets/example.gif" width="400"/>
+</p>
 
 ## Tecnologias utilizadas
 
