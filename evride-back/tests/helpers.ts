@@ -8,8 +8,8 @@ export async function cleanDb() {
 	await prisma.listing.deleteMany();
 	await prisma.chat.deleteMany();
 	await prisma.listingImage.deleteMany();
-	await prisma.brand.deleteMany();
 	await prisma.model.deleteMany();
+	await prisma.brand.deleteMany();
 	await prisma.user.deleteMany();
 }
 
