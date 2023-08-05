@@ -5,6 +5,7 @@ export function validateListing(req: Request, res: Response, next: NextFunction)
 	try {
 		const { error } = listingSchema.validate(req.body);
 		if (error) {
+			console.log(error.message)
 			throw {
 				status: 400,
 				message: error.message
