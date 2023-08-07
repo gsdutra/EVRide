@@ -13,6 +13,7 @@ export default function Anuncios() {
     const [listings, setListings] = useState<object[]>([]);
     const [userData, setUserData] = useState<any>({});
     const [userLogged, setUserLogged] = useState(false);
+    const [updateListings, setUpdateListings] = useState(false);
 
     useEffect(() => {
         setLoading(true)
@@ -32,7 +33,7 @@ export default function Anuncios() {
             .then((e) => setListings(e.data))
             .catch((e) => console.log(e))
             .finally(()=>setLoading(false))
-    }, [userLogged])
+    }, [userLogged, updateListings])
 
     const deleteListing = (id: number) => {
         setLoading(true)
@@ -40,7 +41,10 @@ export default function Anuncios() {
         const deletedListing = useApi.delete('/listing/' + id, token)
             .then((e) => toast.success('Anúncio deletado!'))
             .catch((e) => console.log(e))
-            .finally(()=>setLoading(false))
+            .finally(()=>{
+                setLoading(false);
+                setUpdateListings(!updateListings);
+            })
     }
 
     return (
