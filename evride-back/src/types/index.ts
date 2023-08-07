@@ -3,6 +3,8 @@ export type MakeOptional<T> = {
 };
 
 export type SearchListing = {
+	brand?: string
+	model?: string
 	sellerId?: number
 	brandId?: number
 	modelId?: number

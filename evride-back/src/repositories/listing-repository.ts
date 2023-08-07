@@ -1,5 +1,5 @@
 import prisma from '../config/database';
-import {Fuel, Category, Listing} from '@prisma/client';
+import { Fuel, Category, Listing } from '@prisma/client';
 import { SearchListing } from '../types';
 
 export async function getListingById(id: number) {
@@ -20,6 +20,8 @@ export async function getListings(listing: SearchListing) {
 	if (listing.sellerId) where.sellerId = Number(listing.sellerId)
 	if (listing.brandId) where.brandId = Number(listing.brandId)
 	if (listing.modelId) where.modelId = Number(listing.modelId)
+	if (listing.brand) where.brand = { name: { contains: String(listing.brand) } }
+	if (listing.model) where.model = { name: { contains: String(listing.model) } }
 	if (listing.acceptsTrade) where.acceptsTrade = Boolean(listing.acceptsTrade)
 	if (listing.fuel) where.fuel = listing.fuel as Fuel
 	if (listing.category) where.category = listing.category as Category
@@ -33,15 +35,28 @@ export async function getListings(listing: SearchListing) {
 	if (listing.state) where.state = listing.state
 	if (listing.city) where.city = listing.city
 
+	console.log(where)
+
+	prisma.listing.findMany({
+		where: {
+			brand: {
+				name: {
+					contains: listing.brand
+				}
+			}
+		}
+	})
+
 	return prisma.listing.findMany(
-		{ where,
+		{
+			where,
 			include: {
 				brand: true,
 				model: true,
 				images: true
 			}
 		}
-		);
+	);
 }
 
 export async function getBrands() {
