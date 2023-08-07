@@ -34,7 +34,7 @@ export default function Anuncios() {
 		<Loading loading={loading} />
 		<div className="w-max">
 			<div className="mt-[50px] flex flex-col justify-center items-center text-xl">
-				<form className='bg-white border-black flex w-[90vw] h-[40px] rounded-[20px] mb-3' onSubmit={handleSearch}>
+				<form className='bg-white border-black border-solid border-2 flex w-[90vw] h-[40px] rounded-[20px] mb-3' onSubmit={handleSearch}>
 					<input
 						className="mb-3 w-[40vw] h-[40px] bg-transparent active:bg-transparent focus:text-black text-black"
 						placeholder='Marca'
@@ -51,7 +51,7 @@ export default function Anuncios() {
 						value={model}
 						onChange={e => setModel(e.target.value)}
 					/>
-					<button className="button" type="submit">
+					<button className="button w-[10vw] flex justify-end items-center pr-4" type="submit">
 						<Image src='/search.svg' alt='pesquisar' width={30} height={30}/>
 					</button>
 
