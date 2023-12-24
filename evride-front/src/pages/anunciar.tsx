@@ -97,6 +97,11 @@ export default function Anunciar() {
 		const token = localStorage.getItem("token") || "";
 		e.preventDefault();
 
+		if (imagesArray.length === 0) {
+			toast('Selecione a foto do veículo antes de enviar o anúncio.', { type: 'error' })
+			return
+		}
+
 		let brandId = brandList.find((brand) => brand.name === vehicleBrand);
 		let modelId = modelList.find((model) => model.name === vehicleModel);
 		if (brandId) brandId = brandId.id;
@@ -134,6 +139,7 @@ export default function Anunciar() {
 		}
 
 		setLoading(true)
+
 		const createListing = await useApi.post('/listing', data, token)
 			.then((e) => {
 				toast.success('Anúncio criado com sucesso!');
