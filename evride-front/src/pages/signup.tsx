@@ -20,7 +20,9 @@ export default function Signup() {
 
 	const [loading, setLoading] = useState(false);
 
-	const uploader = Uploader({ apiKey: "public_FW25bYpAiKP7d5aXYnqUJC1WyTde" });
+	const apiKey: string = process.env.IMAGE_UPLOADER_API_KEY as string;
+
+	const uploader = Uploader({ apiKey: apiKey });
 
 	const handleSubmit = (e: FormEvent) => {
 		e.preventDefault();

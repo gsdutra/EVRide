@@ -38,7 +38,9 @@ export default function Anunciar() {
 	const [image, setImage] = useState<string>('');
 	const [imagesArray, setImagesArray] = useState<string[]>([]);
 
-	const uploader = Uploader({ apiKey: "public_FW25bYpAiKP7d5aXYnqUJC1WyTde" });
+	const apiKey: string = process.env.IMAGE_UPLOADER_API_KEY as string;
+
+	const uploader = Uploader({ apiKey: apiKey });
 
 	useEffect(() => {
 		setLoading(true)
