@@ -20,7 +20,9 @@ export default function Signup() {
 
 	const [loading, setLoading] = useState(false);
 
-	const apiKey: string = process.env.IMAGE_UPLOADER_API_KEY as string;
+	const apiKey: string = process.env.NEXT_PUBLIC_IMAGE_UPLOADER_API_KEY as string;
+
+	console.log(apiKey)
 
 	const uploader = Uploader({ apiKey: apiKey });
 
